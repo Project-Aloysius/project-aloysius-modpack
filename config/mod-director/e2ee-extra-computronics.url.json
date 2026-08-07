@@ -1,0 +1,12 @@
+{
+  "url": "https://files.vexatos.com/Computronics/Computronics-1.12.2-1.6.6.jar",
+  "follows": [
+    "Computronics 1.6.6"
+  ],
+  "fileName": "Computronics-1.12.2-1.6.6.jar",
+  "installationPolicy": {
+    "continueOnFailedDownload": false,
+    "name": "Computronics 1.6.6",
+    "description": "Required mod added by the E2E:E extra-mod fork."
+  }
+}

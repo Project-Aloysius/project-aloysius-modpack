@@ -1,0 +1,129 @@
+name: Sync latest E2E:E release
+
+on:
+  schedule:
+    # Daily at 04:23 UTC. The job changes the branch only when a new
+    # published GitHub release exists upstream.
+    - cron: "23 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-latest-e2ee-release
+  cancel-in-progress: false
+
+env:
+  UPSTREAM_REPO: Krutoy242/Enigmatica2Expert-Extended
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out custom pack branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote get-url upstream >/dev/null 2>&1 || \
+            git remote add upstream "https://github.com/${UPSTREAM_REPO}.git"
+
+      - name: Resolve newest published upstream release
+        id: upstream
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="$(
+            gh api "repos/${UPSTREAM_REPO}/releases?per_page=20" \
+              --jq 'map(select(.draft | not))[0].tag_name'
+          )"
+
+          if [ -z "$TAG" ] || [ "$TAG" = "null" ]; then
+            echo "Could not resolve an upstream release tag" >&2
+            exit 1
+          fi
+
+          CURRENT=""
+          if [ -f .fork/upstream-release.txt ]; then
+            CURRENT="$(tr -d '\r\n' < .fork/upstream-release.txt)"
+          fi
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "current=$CURRENT" >> "$GITHUB_OUTPUT"
+          echo "Newest upstream release: $TAG"
+          echo "Current custom base: ${CURRENT:-none}"
+
+      - name: Stop when already current
+        if: steps.upstream.outputs.current == steps.upstream.outputs.tag
+        run: echo "The custom pack already uses ${{ steps.upstream.outputs.tag }}."
+
+      - name: Fetch release tag
+        if: steps.upstream.outputs.current != steps.upstream.outputs.tag
+        run: |
+          git fetch --force upstream \
+            "refs/tags/${{ steps.upstream.outputs.tag }}:refs/tags/${{ steps.upstream.outputs.tag }}"
+
+      - name: Save fork overlay
+        if: steps.upstream.outputs.current != steps.upstream.outputs.tag
+        run: |
+          tar -czf /tmp/e2ee-fork-overlay.tar.gz \
+            .fork \
+            .github/workflows/sync-upstream.yml \
+            FORK-SETUP.md
+
+      - name: Rebuild from the release tag
+        if: steps.upstream.outputs.current != steps.upstream.outputs.tag
+        run: |
+          # This deliberately discards all branch content after the immutable
+          # upstream release tag. It prevents unreleased master commits from
+          # entering the custom pack.
+          git reset --hard "${{ steps.upstream.outputs.tag }}"
+          git clean -fd
+          tar -xzf /tmp/e2ee-fork-overlay.tar.gz
+          printf '%s\n' "${{ steps.upstream.outputs.tag }}" > .fork/upstream-release.txt
+
+      - name: Reapply extra-mod overlay
+        if: steps.upstream.outputs.current != steps.upstream.outputs.tag
+        run: python .fork/generate_moddirector.py
+
+      - name: Validate generated JSON
+        if: steps.upstream.outputs.current != steps.upstream.outputs.tag
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          files = sorted(Path("config/mod-director").glob("e2ee-extra-*.url.json"))
+          if not files:
+              raise SystemExit("No managed Mod Director files were generated")
+
+          for path in files:
+              with path.open(encoding="utf-8") as handle:
+                  json.load(handle)
+              print(f"validated {path}")
+          PY
+
+      - name: Commit release-based custom pack
+        if: steps.upstream.outputs.current != steps.upstream.outputs.tag
+        run: |
+          git add \
+            .fork \
+            .github/workflows/sync-upstream.yml \
+            FORK-SETUP.md \
+            config/mod-director
+          git commit -m "Build custom pack on E2E:E ${{ steps.upstream.outputs.tag }}"
+
+      - name: Replace branch safely
+        if: steps.upstream.outputs.current != steps.upstream.outputs.tag
+        run: |
+          # Refuse to overwrite the branch if somebody pushed to it after this
+          # workflow started.
+          git push \
+            --force-with-lease="refs/heads/${GITHUB_REF_NAME}:${GITHUB_SHA}" \
+            origin "HEAD:refs/heads/${GITHUB_REF_NAME}"
