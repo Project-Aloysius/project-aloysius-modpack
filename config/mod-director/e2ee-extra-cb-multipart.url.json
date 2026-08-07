@@ -1,0 +1,9 @@
+{
+  "url": "https://edge.forgecdn.net/files/2755/790/ForgeMultipart-1.12.2-2.6.2.83-universal.jar",
+  "fileName": "ForgeMultipart-1.12.2-2.6.2.83-universal.jar",
+  "installationPolicy": {
+    "continueOnFailedDownload": false,
+    "name": "CB Multipart 2.6.2.83",
+    "description": "Required mod added by the E2E:E extra-mod fork."
+  }
+}

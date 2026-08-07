@@ -1,0 +1,9 @@
+{
+  "url": "https://edge.forgecdn.net/files/2735/197/MrTJPCore-1.12.2-2.1.4.43-universal.jar",
+  "fileName": "MrTJPCore-1.12.2-2.1.4.43-universal.jar",
+  "installationPolicy": {
+    "continueOnFailedDownload": false,
+    "name": "MrTJPCore 2.1.4.43",
+    "description": "Required mod added by the E2E:E extra-mod fork."
+  }
+}

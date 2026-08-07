@@ -21,6 +21,20 @@ PREFIX = "e2ee-extra-"
 # - Project Red 4.9.4.120 full module set
 MODS: list[dict[str, Any]] = [
     {
+        "slug": "cb-multipart",
+        "name": "CB Multipart 2.6.2.83",
+        "project_id": 258426,
+        "file_name": "ForgeMultipart-1.12.2-2.6.2.83-universal.jar",
+        "url": "https://edge.forgecdn.net/files/2755/790/ForgeMultipart-1.12.2-2.6.2.83-universal.jar",
+    },
+    {
+        "slug": "mrtjpcore",
+        "name": "MrTJPCore 2.1.4.43",
+        "project_id": 229002,
+        "file_name": "MrTJPCore-1.12.2-2.1.4.43-universal.jar",
+        "url": "https://edge.forgecdn.net/files/2735/197/MrTJPCore-1.12.2-2.1.4.43-universal.jar",
+    },
+    {
         "slug": "railcraft",
         "name": "Railcraft 12.0.0",
         "project_id": 51195,
