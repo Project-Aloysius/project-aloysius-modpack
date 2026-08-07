@@ -1,8 +1,5 @@
 {
   "url": "https://edge.forgecdn.net/files/2745/549/ProjectRed-1.12.2-4.9.4.120-lighting.jar",
-  "follows": [
-    "Project Red Illumination 4.9.4.120"
-  ],
   "fileName": "ProjectRed-1.12.2-4.9.4.120-lighting.jar",
   "installationPolicy": {
     "continueOnFailedDownload": false,

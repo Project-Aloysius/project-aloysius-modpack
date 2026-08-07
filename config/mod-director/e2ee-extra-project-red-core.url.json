@@ -1,8 +1,5 @@
 {
   "url": "https://edge.forgecdn.net/files/2745/545/ProjectRed-1.12.2-4.9.4.120-Base.jar",
-  "follows": [
-    "Project Red Core 4.9.4.120"
-  ],
   "fileName": "ProjectRed-1.12.2-4.9.4.120-Base.jar",
   "installationPolicy": {
     "continueOnFailedDownload": false,

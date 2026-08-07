@@ -1,8 +1,5 @@
 {
   "url": "https://edge.forgecdn.net/files/2745/550/ProjectRed-1.12.2-4.9.4.120-mechanical.jar",
-  "follows": [
-    "Project Red Expansion 4.9.4.120"
-  ],
   "fileName": "ProjectRed-1.12.2-4.9.4.120-mechanical.jar",
   "installationPolicy": {
     "continueOnFailedDownload": false,

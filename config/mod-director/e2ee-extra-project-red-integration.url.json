@@ -1,8 +1,5 @@
 {
   "url": "https://edge.forgecdn.net/files/2745/548/ProjectRed-1.12.2-4.9.4.120-integration.jar",
-  "follows": [
-    "Project Red Integration 4.9.4.120"
-  ],
   "fileName": "ProjectRed-1.12.2-4.9.4.120-integration.jar",
   "installationPolicy": {
     "continueOnFailedDownload": false,

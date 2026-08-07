@@ -1,8 +1,5 @@
 {
   "url": "https://edge.forgecdn.net/files/2745/546/ProjectRed-1.12.2-4.9.4.120-compat.jar",
-  "follows": [
-    "Project Red Compat 4.9.4.120"
-  ],
   "fileName": "ProjectRed-1.12.2-4.9.4.120-compat.jar",
   "installationPolicy": {
     "continueOnFailedDownload": false,

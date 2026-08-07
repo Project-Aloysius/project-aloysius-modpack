@@ -1,8 +1,5 @@
 {
   "url": "https://edge.forgecdn.net/files/2745/551/ProjectRed-1.12.2-4.9.4.120-world.jar",
-  "follows": [
-    "Project Red Exploration 4.9.4.120"
-  ],
   "fileName": "ProjectRed-1.12.2-4.9.4.120-world.jar",
   "installationPolicy": {
     "continueOnFailedDownload": false,

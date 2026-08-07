@@ -1,8 +1,5 @@
 {
   "url": "https://edge.forgecdn.net/files/2745/547/ProjectRed-1.12.2-4.9.4.120-fabrication.jar",
-  "follows": [
-    "Project Red Fabrication 4.9.4.120"
-  ],
   "fileName": "ProjectRed-1.12.2-4.9.4.120-fabrication.jar",
   "installationPolicy": {
     "continueOnFailedDownload": false,

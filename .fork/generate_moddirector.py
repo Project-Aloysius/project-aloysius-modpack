@@ -121,7 +121,6 @@ def upstream_text() -> str:
 def config_payload(mod: dict[str, Any]) -> dict[str, Any]:
     return {
         "url": mod["url"],
-        "follows": [mod["name"]],
         "fileName": mod["file_name"],
         "installationPolicy": {
             "continueOnFailedDownload": False,
